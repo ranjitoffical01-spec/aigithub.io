@@ -1,0 +1,201 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   AI Assistant
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+ </head>
+ <body class="bg-gray-50 min-h-screen flex flex-col">
+  <header class="bg-white shadow-md">
+   <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="flex items-center space-x-2">
+     <img alt="Logo with letters AI in blue and white background" class="w-10 h-10" height="40" src="https://storage.googleapis.com/a1aa/image/43918dd0-0717-4515-03d6-93fdc531e64d.jpg" width="40"/>
+     <h1 class="text-2xl font-semibold text-gray-800">
+      AI Assistant
+     </h1>
+    </div>
+    <nav class="hidden md:flex space-x-6 text-gray-600 font-medium">
+     <a class="hover:text-blue-600 transition" href="#">
+      Home
+     </a>
+     <a class="hover:text-blue-600 transition" href="#">
+      Features
+     </a>
+     <a class="hover:text-blue-600 transition" href="#">
+      Pricing
+     </a>
+     <a class="hover:text-blue-600 transition" href="#">
+      About
+     </a>
+     <a class="hover:text-blue-600 transition" href="#">
+      Contact
+     </a>
+    </nav>
+    <button aria-label="Toggle menu" class="md:hidden text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600" id="menu-btn">
+     <i class="fas fa-bars fa-lg">
+     </i>
+    </button>
+   </div>
+   <nav class="md:hidden bg-white border-t border-gray-200 hidden" id="mobile-menu">
+    <a class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition" href="#">
+     Home
+    </a>
+    <a class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition" href="#">
+     Features
+    </a>
+    <a class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition" href="#">
+     Pricing
+    </a>
+    <a class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition" href="#">
+     About
+    </a>
+    <a class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition" href="#">
+     Contact
+    </a>
+   </nav>
+  </header>
+  <main class="flex-grow container mx-auto px-4 py-10 max-w-3xl">
+   <h2 class="text-3xl font-semibold text-gray-800 mb-6 text-center">
+    Chat with your AI Assistant
+   </h2>
+   <div aria-atomic="false" aria-live="polite" class="bg-white rounded-lg shadow-md p-6 flex flex-col space-y-4 max-h-[60vh] overflow-y-auto" id="chat-container">
+    <div class="flex items-start space-x-3" id="welcome-message">
+     <img alt="AI assistant avatar with blue background and white letters AI" class="w-10 h-10 rounded-full" height="40" src="https://storage.googleapis.com/a1aa/image/edf92170-70a6-4c1b-1f0e-6c0cebb9d3dd.jpg" width="40"/>
+     <div class="bg-blue-100 text-blue-800 rounded-lg px-4 py-2 max-w-[80%]">
+      Hello! I am your AI assistant. Ask me anything.
+     </div>
+    </div>
+   </div>
+   <form aria-label="Send message form" class="mt-6 flex space-x-3" id="chat-form">
+    <input aria-required="true" autocomplete="off" class="flex-grow border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600" id="user-input" placeholder="Type your message..." type="text"/>
+    <button aria-label="Send message" class="bg-blue-600 text-white rounded-lg px-5 py-2 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 flex items-center justify-center" type="submit">
+     <i class="fas fa-paper-plane">
+     </i>
+    </button>
+   </form>
+  </main>
+  <footer class="bg-white border-t border-gray-200 py-6 mt-10">
+   <div class="container mx-auto px-4 text-center text-gray-500 text-sm">
+    © 2024 AI Assistant. All rights reserved.
+   </div>
+  </footer>
+  <script>
+   const chatContainer = document.getElementById('chat-container');
+    const chatForm = document.getElementById('chat-form');
+    const userInput = document.getElementById('user-input');
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    function appendMessage(message, sender = 'user') {
+      const messageWrapper = document.createElement('div');
+      messageWrapper.classList.add('flex', 'items-start', 'space-x-3');
+      if (sender === 'user') {
+        messageWrapper.classList.add('justify-end');
+      }
+
+      const avatar = document.createElement('img');
+      avatar.classList.add('w-10', 'h-10', 'rounded-full');
+      if (sender === 'user') {
+        avatar.src = 'https://placehold.co/40x40/png?text=You';
+        avatar.alt = 'User avatar with gray background and white letters You';
+      } else {
+        avatar.src = 'https://placehold.co/40x40/png?text=AI';
+        avatar.alt = 'AI assistant avatar with blue background and white letters AI';
+      }
+
+      const messageBubble = document.createElement('div');
+      messageBubble.classList.add('rounded-lg', 'px-4', 'py-2', 'max-w-[80%]', 'whitespace-pre-wrap');
+      if (sender === 'user') {
+        messageBubble.classList.add('bg-gray-200', 'text-gray-800');
+      } else {
+        messageBubble.classList.add('bg-blue-100', 'text-blue-800');
+      }
+      messageBubble.textContent = message;
+
+      if (sender === 'user') {
+        messageWrapper.appendChild(messageBubble);
+        messageWrapper.appendChild(avatar);
+      } else {
+        messageWrapper.appendChild(avatar);
+        messageWrapper.appendChild(messageBubble);
+      }
+
+      chatContainer.appendChild(messageWrapper);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    async function getAIResponse(message) {
+      const apiKey = 'sk-3SmfKsng0OLhK3yicgbnwg';
+      const endpoint = 'https://api.openai.com/v1/chat/completions';
+
+      const body = {
+        model: "gpt-3.5-turbo",
+        messages: [
+          { role: "system", content: "You are a helpful AI assistant." },
+          { role: "user", content: message }
+        ],
+        max_tokens: 500,
+        temperature: 0.7
+      };
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify(body)
+        });
+
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        if (data.choices && data.choices.length > 0) {
+          return data.choices[0].message.content.trim();
+        } else {
+          return "Sorry, I couldn't generate a response.";
+        }
+      } catch (error) {
+        return `Error: ${error.message}`;
+      }
+    }
+
+    chatForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const message = userInput.value.trim();
+      if (!message) return;
+      appendMessage(message, 'user');
+      userInput.value = '';
+      appendMessage('...', 'ai'); // temporary loading message
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+
+      // Remove the loading message before adding real response
+      const loadingMessage = chatContainer.querySelector('div.flex.items-start.space-x-3:last-child div.bg-blue-100');
+      const aiResponse = await getAIResponse(message);
+      if (loadingMessage) {
+        loadingMessage.textContent = aiResponse;
+      } else {
+        appendMessage(aiResponse, 'ai');
+      }
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    });
+  </script>
+ </body>
+</html>
